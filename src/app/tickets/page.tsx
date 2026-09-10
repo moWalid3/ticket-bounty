@@ -1,3 +1,4 @@
+import { Routes } from "@/constants/routes";
 import { initialTickets } from "@/data";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ function TicketsPage() {
           <p>{ticket.content}</p>
           <Link
             className="text-blue-500 underline text-sm"
-            href={`/tickets/${ticket.id}`}
+            href={Routes.ticket(ticket.id.toString())}
           >
             view
           </Link>
