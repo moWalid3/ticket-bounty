@@ -1,4 +1,11 @@
-export const initialTickets = [
+type Ticket = {
+  id: number;
+  title: string;
+  content: string;
+  status: "DONE" | "OPEN" | "IN_PROGRESS";
+};
+
+export const initialTickets: Ticket[] = [
   {
     id: 1,
     title: "Ticket 1",
@@ -15,6 +22,6 @@ export const initialTickets = [
     id: 3,
     title: "Ticket 3",
     content: "This is the third ticket",
-    status: "DONE",
+    status: "IN_PROGRESS",
   },
 ];
