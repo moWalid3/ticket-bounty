@@ -1,13 +1,11 @@
 import { Routes } from "@/constants/routes";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "The Road to Next",
@@ -16,7 +14,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={cn("h-full", "antialiased", inter.variable, "font-sans")}
+    >
       <body className="min-h-full flex flex-col">
         <nav
           className="

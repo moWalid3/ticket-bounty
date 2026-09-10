@@ -2,6 +2,15 @@ import { Routes } from "@/constants/routes";
 import { initialTickets } from "@/data";
 import Link from "next/link";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 function CheckIcon() {
   return (
     <svg
@@ -81,6 +90,21 @@ function TicketsPage() {
           </Link>
         </div>
       ))}
+
+      <div>
+        <Card className="max-w-sm">
+          <CardHeader>
+            <CardTitle>Project Overview</CardTitle>
+            <CardDescription>
+              Track progress and recent activity for your Next.js app.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            Your design system is ready. Start building your next component.
+            <Button>Click</Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
