@@ -5,11 +5,12 @@ import Link from "next/link";
 import {
   Card,
   CardContent,
-  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
+import { buttonVariants } from "@/components/ui/button";
 
 function CheckIcon() {
   return (
@@ -76,34 +77,38 @@ const TICKET_ICONS = {
 
 function TicketsPage() {
   return (
-    <div className="p-4 flex flex-col w-120 mx-auto gap-3 animate-fade-in-from-top">
-      {initialTickets.map((ticket) => (
-        <div className="border rounded p-3 flex flex-col gap-2" key={ticket.id}>
-          <div>{TICKET_ICONS[ticket.status]}</div>
-          <h3>{ticket.title}</h3>
-          <p>{ticket.content}</p>
-          <Link
-            className="text-blue-500 underline text-sm"
-            href={Routes.ticket(ticket.id.toString())}
-          >
-            view
-          </Link>
-        </div>
-      ))}
-
+    <div className="flex-1 flex flex-col gap-y-8">
       <div>
-        <Card className="max-w-sm">
-          <CardHeader>
-            <CardTitle>Project Overview</CardTitle>
-            <CardDescription>
-              Track progress and recent activity for your Next.js app.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            Your design system is ready. Start building your next component.
-            <Button>Click</Button>
-          </CardContent>
-        </Card>
+        <h2 className="text-3xl font-bold tracking-tight">Tickets</h2>
+        <p className="text-sm text-muted-foreground">
+          All your tickets at one place
+        </p>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-in-from-top">
+        {initialTickets.map((ticket) => (
+          <Card key={ticket.id} className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-x-2">
+                <span>{TICKET_ICONS[ticket.status]}</span>
+                <span className="truncate">{ticket.title}</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <span className="line-clamp-3 whitespace-break-spaces">
+                {ticket.content}
+              </span>
+            </CardContent>
+            <CardFooter>
+              <Link
+                href={Routes.ticket(ticket.id.toString())}
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                View
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </div>
   );
