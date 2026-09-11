@@ -1,12 +1,8 @@
-import { initialTickets } from "@/data";
 import TicketItem from "@/features/ticket/components/ticket-item";
-import { Ticket } from "../types";
+import { getTickets } from "../queries/get-tickets";
 
 async function TicketList() {
-  const tickets = await new Promise<Ticket[]>(async (resolve) => {
-    await new Promise((res) => setTimeout(() => res(null), 1000));
-    resolve(initialTickets);
-  });
+  const tickets = await getTickets();
 
   return (
     <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-in-from-top">

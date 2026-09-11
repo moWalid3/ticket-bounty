@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Routes } from "@/constants/routes";
 import { TICKET_ICONS } from "@/features/ticket/constants";
 import { cn } from "@/lib/utils";
-import { Ticket } from "../types";
+import { Ticket } from "@prisma/client";
 
 type TicketItemProps = {
   ticket: Ticket;
