@@ -1,8 +1,9 @@
-import { Routes } from "@/constants/routes";
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
+
+import Header from "@/components/header";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { cn } from "@/lib/utils";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -15,31 +16,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
+      suppressHydrationWarning
       lang="en"
       className={cn("h-full", "antialiased", inter.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
-        <nav
-          className="
-            supports-backdrop-blur:bg-background/60 fixed top-0 left-0 right-0 z-20 border-b 
-            flex justify-between bg-background/95 backdrop-blur w-full py-2.5 px-5
-          "
-        >
-          <div>
-            <Link href={Routes.home} className="text-lg font-bold">
-              Home
-            </Link>
-          </div>
-          <div>
-            <Link href={Routes.tickets} className="text-sm underline">
-              Tickets
-            </Link>
-          </div>
-        </nav>
+        <ThemeProvider>
+          <Header />
 
-        <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
-          {children}
-        </main>
+          <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
