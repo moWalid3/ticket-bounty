@@ -1,8 +1,8 @@
-import Placeholder from "@/components/Placeholder";
+import Placeholder from "@/components/placeholder";
 import { buttonVariants } from "@/components/ui/button";
 import { Routes } from "@/constants/routes";
 import { initialTickets } from "@/data";
-import TicketItem from "@/features/ticket/components/TicketItem";
+import TicketItem from "@/features/ticket/components/ticket-item";
 import Link from "next/link";
 
 type TicketPageProps = {

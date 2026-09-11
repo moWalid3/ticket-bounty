@@ -1,6 +1,6 @@
-import Heading from "@/components/Heading";
+import Heading from "@/components/heading";
 import { initialTickets } from "@/data";
-import TicketItem from "@/features/ticket/components/TicketItem";
+import TicketItem from "@/features/ticket/components/ticket-item";
 
 function TicketsPage() {
   return (

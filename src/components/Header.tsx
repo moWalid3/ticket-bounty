@@ -2,7 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Routes } from "@/constants/routes";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
-import ThemeSwitcher from "./theme/ThemeSwitcher";
+import ThemeSwitcher from "./theme/theme-switcher";
 
 function Header() {
   return (
