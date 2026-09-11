@@ -2,6 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Routes } from "@/constants/routes";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
+import ThemeSwitcher from "./theme/ThemeSwitcher";
 
 function Header() {
   return (
@@ -24,7 +25,9 @@ function Header() {
         </Link>
       </div>
 
-      <div>
+      <div className="flex items-center gap-x-2">
+        <ThemeSwitcher />
+
         <Link href={Routes.tickets} className={buttonVariants()}>
           Tickets
         </Link>

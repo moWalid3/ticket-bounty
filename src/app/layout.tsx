@@ -1,8 +1,9 @@
-import Header from "@/components/Header";
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import Header from "@/components/Header";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { cn } from "@/lib/utils";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -15,15 +16,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
+      suppressHydrationWarning
       lang="en"
       className={cn("h-full", "antialiased", inter.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <ThemeProvider>
+          <Header />
 
-        <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
-          {children}
-        </main>
+          <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
