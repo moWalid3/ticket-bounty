@@ -7,10 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "type": "tsc --noEmit"
+    "type": "tsc --noEmit",
+    "postinstall": "prisma generate",
+    "prisma-seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@node-rs/argon2": "^2.2.1",
+    "@prisma/client": "^6.19.3",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.2.6",
     "lucide-react": "^1.44.0",
@@ -28,7 +32,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }
