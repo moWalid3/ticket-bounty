@@ -15,7 +15,10 @@ type TicketItemProps = {
 
 function TicketItem({ ticket, isDetail }: TicketItemProps) {
   const detailButton = (
-    <Link href={Routes.ticket(ticket.id)} className={buttonVariants()}>
+    <Link
+      href={Routes.ticket(ticket.id)}
+      className={buttonVariants({ size: "icon" })}
+    >
       <LucideSquareArrowOutUpRight />
     </Link>
   );
