@@ -18,6 +18,7 @@ type CustomControlledFieldProps<
   placeholder?: string;
   className?: string;
   options?: SelectOption[];
+  inputType?: string;
 };
 
 function CustomControlledField<
@@ -32,6 +33,7 @@ function CustomControlledField<
   fieldType,
   className,
   options,
+  inputType,
 }: CustomControlledFieldProps<TFieldValues, TName>) {
   return (
     <Controller
@@ -53,6 +55,7 @@ function CustomControlledField<
             className={className}
             options={options}
             label={label}
+            inputType={inputType}
           />
 
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

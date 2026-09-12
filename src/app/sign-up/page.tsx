@@ -1,5 +1,6 @@
 import CardCompact from "@/components/card-compact";
 import { Routes } from "@/constants/routes";
+import SignUpForm from "@/features/auth/components/sign-up-form";
 import Link from "next/link";
 
 function SignUpPage() {
@@ -8,8 +9,8 @@ function SignUpPage() {
       <CardCompact
         title="Sign Up"
         description="Create an account to get started"
-        content="Test"
-        className="w-full max-w-lg"
+        content={<SignUpForm />}
+        className="w-full max-w-lg animate-fade-in-from-top"
         footer={
           <span className="text-muted-foreground">
             Have an account?
