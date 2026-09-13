@@ -17,6 +17,11 @@ export const passwordSchema = z
     message: "Must contain at least one special character",
   });
 
+export const emailSchema = z
+  .email()
+  .min(1, { message: "Is required" })
+  .max(191);
+
 export const signUpSchema = z
   .object({
     username: z
@@ -27,7 +32,7 @@ export const signUpSchema = z
         (value) => !value.includes(" "),
         "Username cannot contain spaces",
       ),
-    email: z.email().min(1, { message: "Is required" }).max(191),
+    email: emailSchema,
     password: passwordSchema,
     confirmPassword: passwordSchema,
   })
