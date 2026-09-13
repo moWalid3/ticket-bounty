@@ -1,6 +1,4 @@
-"use client";
-
-import { LogOutIcon, LucideLock, UserIcon } from "lucide-react";
+import { LucideLock, UserIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Routes } from "@/constants/routes";
+import { SignOutButton } from "@/features/auth/components/sign-out-button";
 
 type AccountDropdownProps = { username: string; email: string };
 
@@ -63,8 +62,7 @@ export function AccountDropdown({ username, email }: AccountDropdownProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
-          <LogOutIcon />
-          Sign Out
+          <SignOutButton />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
