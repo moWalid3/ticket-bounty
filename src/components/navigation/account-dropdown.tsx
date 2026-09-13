@@ -36,8 +36,15 @@ export function AccountDropdown({ username, email }: AccountDropdownProps) {
               <AvatarFallback>{username.slice(0, 2)}</AvatarFallback>
             </Avatar>
             <div>
-              <h5 className="font-bold text-foreground">{username}</h5>
-              <p className="">{email}</p>
+              <h5
+                className="truncate font-bold text-foreground"
+                title={username}
+              >
+                {username}
+              </h5>
+              <p className="truncate" title={email}>
+                {email}
+              </p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
