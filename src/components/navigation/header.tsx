@@ -4,18 +4,15 @@ import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import ThemeSwitcher from "../theme/theme-switcher";
+import { SidebarTrigger } from "../ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
 import AuthNavLinks from "./auth-nav-links";
 
 function Header() {
   return (
-    <nav
-      className="
-        supports-backdrop-blur:bg-background/60 fixed top-0 left-0 right-0 z-20 border-b 
-        flex justify-between bg-background/95 backdrop-blur w-full py-2.5 px-5
-      "
-    >
+    <nav className="flex justify-between items-center py-2.5 px-5 shrink-0 bg-sidebar border-b border-b-border/50">
       <div>
+        <SidebarTrigger className="mr-4" />
         <Link
           href={Routes.home}
           className={buttonVariants({
@@ -34,10 +31,6 @@ function Header() {
         </Suspense>
 
         <ThemeSwitcher />
-
-        <Link href={Routes.tickets} className={buttonVariants()}>
-          Tickets
-        </Link>
       </div>
     </nav>
   );
