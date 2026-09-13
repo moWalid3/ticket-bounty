@@ -1,10 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+
 import CustomControlledField from "@/components/controlled-field/custom-controlled-field";
 import { SubmitButton } from "@/components/form/submit-button";
 import { FieldGroup } from "@/components/ui/field";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { toast } from "@/components/ui/toast";
+import { Routes } from "@/constants/routes";
 import { signUp } from "../actions/sign-up";
 import {
   signUpDefaultValues,
@@ -13,6 +17,7 @@ import {
 } from "../validation/sign-up-validation";
 
 export default function SignUpForm() {
+  const router = useRouter();
   const form = useForm<SignUpValuesType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
@@ -34,16 +39,15 @@ export default function SignUpForm() {
         return;
       }
 
-      // 2. Handle generic/root errors (e.g., database connection down)
-      // form.setError("root", { type: "server", message: result.error });
-      // OR use a toast notification:
-      // toast.error(result.error);
+      toast.add({ type: "error", description: result.error });
       return;
     }
 
-    // 3. Success state
-    // toast.success("Account created successfully!");
-    // router.push("/dashboard");
+    toast.add({
+      type: "success",
+      description: "Account created successfully!",
+    });
+    router.push(Routes.home);
   }
 
   return (
