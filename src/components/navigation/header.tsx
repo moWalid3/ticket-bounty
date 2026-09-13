@@ -2,7 +2,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { Routes } from "@/constants/routes";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
-import ThemeSwitcher from "./theme/theme-switcher";
+import { Suspense } from "react";
+import ThemeSwitcher from "../theme/theme-switcher";
+import { Skeleton } from "../ui/skeleton";
+import AuthNavLinks from "./auth-nav-links";
 
 function Header() {
   return (
@@ -26,6 +29,10 @@ function Header() {
       </div>
 
       <div className="flex items-center gap-x-2">
+        <Suspense fallback={<Skeleton className="h-9 w-18.75" />}>
+          <AuthNavLinks />
+        </Suspense>
+
         <ThemeSwitcher />
 
         <Link href={Routes.tickets} className={buttonVariants()}>

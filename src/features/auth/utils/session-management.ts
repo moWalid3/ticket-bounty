@@ -22,29 +22,17 @@ export const validateSession = async (sessionToken: string) => {
   const sessionId = hashToken(sessionToken);
 
   const result = await prisma.session.findUnique({
-    where: {
-      id: sessionId,
-    },
-    include: {
-      user: true,
-    },
+    where: { id: sessionId },
+    include: { user: { omit: { passwordHash: true } } },
   });
 
-  // if there is no session, return null
-  if (!result) {
-    return { session: null, user: null };
-  }
+  if (!result) return { session: null, user: null };
 
   const { user, ...session } = result;
 
   // if the session is expired, delete it
   if (Date.now() >= session.expiresAt.getTime()) {
-    // or your ORM of choice
-    await prisma.session.delete({
-      where: {
-        id: sessionId,
-      },
-    });
+    await prisma.session.delete({ where: { id: sessionId } });
 
     return { session: null, user: null };
   }
@@ -54,12 +42,8 @@ export const validateSession = async (sessionToken: string) => {
     session.expiresAt = new Date(Date.now() + SESSION_MAX_DURATION_MS);
 
     await prisma.session.update({
-      where: {
-        id: sessionId,
-      },
-      data: {
-        expiresAt: session.expiresAt,
-      },
+      where: { id: sessionId },
+      data: { expiresAt: session.expiresAt },
     });
   }
 
