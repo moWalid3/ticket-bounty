@@ -9,6 +9,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { Routes } from "@/constants/routes";
+import { handleServerActionErrors } from "@/lib/handle-form-errors";
 import { signIn } from "../actions/sign-in";
 import {
   signInDefaultValues,
@@ -28,24 +29,8 @@ export default function SignInForm() {
 
     const result = await signIn(data);
 
-    if (!result.success) {
-      if (result.fieldErrors) {
-        Object.entries(result.fieldErrors).forEach(([field, errors]) => {
-          if (errors && errors.length > 0) {
-            form.setError(field as keyof SignInValuesType, {
-              type: "server",
-              message: errors[0],
-            });
-          }
-        });
-        return;
-      }
-
-      if (result.error) {
-        form.setError("root", { type: "server", message: result.error });
-      }
-      return;
-    }
+    const hasErrors = handleServerActionErrors(result, form);
+    if (hasErrors) return;
 
     toast.add({ type: "success", description: "Good to see you again!" });
     router.push(Routes.home);

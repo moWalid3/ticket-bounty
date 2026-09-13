@@ -9,6 +9,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { Routes } from "@/constants/routes";
+import { handleServerActionErrors } from "@/lib/handle-form-errors";
 import { signUp } from "../actions/sign-up";
 import {
   signUpDefaultValues,
@@ -26,22 +27,8 @@ export default function SignUpForm() {
   async function onSubmit(data: SignUpValuesType) {
     const result = await signUp(data);
 
-    if (!result.success) {
-      if (result.fieldErrors) {
-        Object.entries(result.fieldErrors).forEach(([field, errors]) => {
-          if (errors && errors.length > 0) {
-            form.setError(field as keyof SignUpValuesType, {
-              type: "server",
-              message: errors[0],
-            });
-          }
-        });
-        return;
-      }
-
-      toast.add({ type: "error", description: result.error });
-      return;
-    }
+    const hasErrors = handleServerActionErrors(result, form);
+    if (hasErrors) return;
 
     toast.add({
       type: "success",
@@ -84,6 +71,13 @@ export default function SignUpForm() {
           label="ConfirmPassword"
           inputType="password"
         />
+
+        {form.formState.errors.root && (
+          <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+            {form.formState.errors.root.message}
+          </div>
+        )}
+
         <SubmitButton label="Sign Up" pending={form.formState.isSubmitting} />
       </FieldGroup>
     </form>

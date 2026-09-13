@@ -1,5 +1,6 @@
 "use server";
 
+import { actionError, ActionState, actionSuccess } from "@/lib/actions";
 import { prisma } from "@/lib/prisma";
 import { generateRandomToken } from "../utils/crypto";
 import { hashPassword } from "../utils/hash-and-verify";
@@ -10,21 +11,11 @@ import {
   SignUpValuesType,
 } from "../validation/sign-up-validation";
 
-type SignUpReturn = Promise<{
-  success: boolean;
-  error?: string;
-  fieldErrors?: Record<string, string[]>;
-}>;
-
-export async function signUp(data: SignUpValuesType): SignUpReturn {
+export async function signUp(data: SignUpValuesType): Promise<ActionState> {
   const parsed = signUpSchema.safeParse(data);
 
   if (!parsed.success) {
-    return {
-      success: false,
-      error: "Validation failed",
-      fieldErrors: parsed.error.flatten().fieldErrors,
-    };
+    return actionError("Validation failed", parsed.error.flatten().fieldErrors);
   }
 
   const { username, email, password } = parsed.data;
@@ -35,14 +26,12 @@ export async function signUp(data: SignUpValuesType): SignUpReturn {
     });
 
     if (existingUser) {
-      return {
-        success: false,
-        error: "Registration failed",
-        fieldErrors:
-          existingUser.email === email
-            ? { email: ["This email is already registered."] }
-            : { username: ["This username is already taken."] },
-      };
+      const fieldErrors =
+        existingUser.email === email
+          ? { email: ["This email is already registered."] }
+          : { username: ["This username is already taken."] };
+
+      return actionError("Registration failed", fieldErrors);
     }
 
     const passwordHash = await hashPassword(password);
@@ -56,11 +45,8 @@ export async function signUp(data: SignUpValuesType): SignUpReturn {
     const session = await createSession(sessionToken, user.id);
     await setSessionCookie(sessionToken, session.expiresAt);
 
-    return { success: true };
+    return actionSuccess();
   } catch {
-    return {
-      success: false,
-      error: "An unexpected error occurred. Please try again later.",
-    };
+    return actionError("An unexpected error occurred. Please try again later.");
   }
 }
