@@ -1,24 +1,24 @@
 import CardCompact from "@/components/card-compact";
 import { Routes } from "@/constants/routes";
-import SignUpForm from "@/features/auth/components/sign-up-form";
+import SignInForm from "@/features/auth/components/sign-in-form";
 import Link from "next/link";
 
-function SignUpPage() {
+function SignInPage() {
   return (
     <div className="flex-1 flex justify-center items-center">
       <CardCompact
-        title="Sign Up"
-        description="Create an account to get started"
-        content={<SignUpForm />}
+        title="Sign In"
+        description="Sign in to your account"
+        content={<SignInForm />}
         className="w-full max-w-lg animate-fade-in-from-top"
         footer={
           <span className="text-muted-foreground">
-            Have an account?
+            No account yet?
             <Link
-              href={Routes.signIn}
+              href={Routes.signUp}
               className="ml-1.5 text-primary/80 hover:underline"
             >
-              Sign in now.
+              Sign up now.
             </Link>
           </span>
         }
@@ -27,4 +27,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignInPage;

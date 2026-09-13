@@ -61,7 +61,7 @@ export function RenderField<T extends FieldValues>({
           placeholder={placeholder}
           disabled={disabled}
           className={className}
-          type={inputType}
+          type={inputType || "text"}
         />
       );
 
