@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,11 +25,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <Header />
+          {/* <Header /> */}
 
-          <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
-            {children}
-          </main>
+          <SidebarProvider>
+            <AppSidebar />
+
+            <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
+              <SidebarTrigger className="mb-4" />
+              {children}
+            </main>
+          </SidebarProvider>
+
           <Toaster />
         </ThemeProvider>
       </body>
