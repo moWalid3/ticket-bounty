@@ -219,3 +219,8 @@
     cursor: pointer;
   }
 }
+
+[data-radix-menu-item],
+[role="menuitem"] {
+  cursor: pointer;
+}
