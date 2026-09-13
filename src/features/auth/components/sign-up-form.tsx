@@ -34,6 +34,7 @@ export default function SignUpForm() {
       type: "success",
       description: "Account created successfully!",
     });
+    form.reset();
     router.push(Routes.home);
   }
 

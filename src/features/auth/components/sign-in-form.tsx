@@ -33,6 +33,7 @@ export default function SignInForm() {
     if (hasErrors) return;
 
     toast.add({ type: "success", description: "Good to see you again!" });
+    form.reset();
     router.push(Routes.home);
   }
 
