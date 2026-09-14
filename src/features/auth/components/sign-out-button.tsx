@@ -31,7 +31,7 @@ export function SignOutButton() {
   }
 
   return (
-    <button onClick={handleSignout} className="flex gap-2 items-center w-full">
+    <button onClick={handleSignout} className="flex gap-4 items-center w-full">
       <LogOutIcon />
       Sign Out
     </button>

@@ -12,7 +12,7 @@ function Header() {
   return (
     <nav className="flex justify-between items-center py-2.5 px-5 shrink-0 bg-sidebar border-b border-b-border/50">
       <div>
-        <SidebarTrigger className="mr-4" />
+        <SidebarTrigger className="mr-2" />
         <Link
           href={Routes.home}
           className={buttonVariants({
@@ -20,7 +20,7 @@ function Header() {
             className: "active:translate-y-0!",
           })}
         >
-          <LucideKanban />
+          {/* <LucideKanban /> */}
           <h1 className="ml-2 text-lg font-semibold">TicketBounty</h1>
         </Link>
       </div>
