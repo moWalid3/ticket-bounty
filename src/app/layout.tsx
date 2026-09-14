@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import Header from "@/components/navigation/header";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,11 +26,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <Header />
+          <SidebarProvider defaultOpen={false}>
+            <AppSidebar />
 
-          <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden bg-secondary/20 py-24 px-8 flex flex-col">
-            {children}
-          </main>
+            <div className="flex flex-col flex-1 w-full h-screen">
+              <Header />
+              <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 bg-background/50">
+                {children}
+              </main>
+            </div>
+          </SidebarProvider>
+
           <Toaster />
         </ThemeProvider>
       </body>

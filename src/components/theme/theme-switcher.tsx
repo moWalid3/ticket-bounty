@@ -9,7 +9,6 @@ function ThemeSwitcher() {
 
   return (
     <Button
-      variant="outline"
       size="icon"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >
