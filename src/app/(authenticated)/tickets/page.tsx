@@ -15,7 +15,7 @@ function TicketsPage() {
         title="Create Ticket"
         description="A new ticket will be created"
         content={<TicketUpsertForm />}
-        className="max-w-md w-full self-center"
+        className="max-w-md w-full self-center animate-fade-from-top"
       />
 
       <ErrorBoundary title="Fetching tickets failed!">

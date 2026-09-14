@@ -1,4 +1,4 @@
-import { LucideSquareArrowOutUpRight } from "lucide-react";
+import { LucidePencil, LucideSquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 
 import CardCompact from "@/components/card-compact";
@@ -25,9 +25,18 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
     </Link>
   );
 
+  const editButton = ticket.isOwner ? (
+    <Link
+      href={Routes.ticketEdit(ticket.id)}
+      className={buttonVariants({ size: "icon" })}
+    >
+      <LucidePencil />
+    </Link>
+  ) : null;
+
   return (
     <div
-      className={cn("w-full flex gap-x-1", {
+      className={cn("w-full flex gap-x-1.25", {
         "max-w-md": !isDetail,
         "max-w-xl": isDetail,
       })}
@@ -52,18 +61,25 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
         footer={
           <>
             <p className="text-muted-foreground text-[13px]">
-              {format(ticket.createdAt, "yyy-mm-dd")} by {ticket.user.username}
+              {format(ticket.deadline, "yyyy-MM-dd")} by {ticket.user.username}
             </p>
             <span className="text-accent-foreground text-[13px]">
-              {formatCurrency(ticket.bounty)}
+              {formatCurrency(+ticket.bounty)}
             </span>
           </>
         }
       />
 
-      {!isDetail && (
-        <div className="flex flex-col gap-y-0.5">{detailButton}</div>
-      )}
+      <div className="flex flex-col gap-y-0.75">
+        {isDetail ? (
+          <>{editButton}</>
+        ) : (
+          <>
+            {detailButton}
+            {editButton}
+          </>
+        )}
+      </div>
     </div>
   );
 }

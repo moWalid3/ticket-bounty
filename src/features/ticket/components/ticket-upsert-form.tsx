@@ -7,29 +7,42 @@ import { toast } from "@/components/ui/toast";
 import { Routes } from "@/constants/routes";
 import { handleServerActionErrors } from "@/lib/handle-form-errors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Ticket } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { upsertTicket } from "../actions/upsert-ticket";
+import { TicketWithMetadata } from "../types";
 import {
   upsertTicketDefaultValues,
   upsertTicketSchema,
   UpsertTicketValuesType,
 } from "../validation/upsert-ticket-validation";
 
-type TicketUpsertFormProps = { ticket?: Ticket };
+export type ClientTicketWithMetadata = Omit<TicketWithMetadata, "bounty"> & {
+  bounty: number;
+};
+interface TicketUpsertFormProps {
+  ticket?: ClientTicketWithMetadata | null;
+}
 
 function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
+  const defaultValues = useMemo(
+    () =>
+      ticket
+        ? { ...ticket, bounty: Number(ticket.bounty) }
+        : upsertTicketDefaultValues,
+    [ticket],
+  );
+
   const router = useRouter();
   const form = useForm<UpsertTicketValuesType>({
     resolver: zodResolver(upsertTicketSchema),
-    defaultValues: ticket
-      ? {
-          ...ticket,
-          bounty: Number(ticket.bounty),
-        }
-      : upsertTicketDefaultValues,
+    defaultValues,
   });
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [ticket, form, defaultValues]);
 
   async function onSubmit(data: UpsertTicketValuesType) {
     form.clearErrors("root");
@@ -41,19 +54,13 @@ function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
 
     form.reset();
 
+    let msg;
     if (ticket) {
-      toast.add({
-        type: "success",
-        description: "Ticket updated successfully",
-      });
-
+      msg = "Ticket updated successfully";
       router.push(Routes.tickets);
     }
-
-    toast.add({
-      type: "success",
-      description: "Ticket created successfully",
-    });
+    msg = msg ?? "Ticket created successfully";
+    toast.add({ type: "success", description: msg });
   }
 
   return (
@@ -100,6 +107,7 @@ function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
         <SubmitButton
           label={ticket ? "Update" : "Create"}
           pending={form.formState.isSubmitting}
+          disabled={!form.formState.isDirty}
         />
       </FieldGroup>
     </form>

@@ -5,13 +5,13 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { actionError, actionSuccess } from "@/lib/actions";
 import { prisma } from "@/lib/prisma";
 import { isOwner } from "@/utils/is-owner";
+import { format } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   upsertTicketSchema,
   UpsertTicketValuesType,
 } from "../validation/upsert-ticket-validation";
-import { format } from "date-fns";
 
 export async function upsertTicket(data: UpsertTicketValuesType, id?: string) {
   const { user } = await getAuth();
@@ -27,7 +27,7 @@ export async function upsertTicket(data: UpsertTicketValuesType, id?: string) {
     if (id) {
       const ticket = await prisma.ticket.findUnique({ where: { id } });
 
-      if (!ticket || isOwner(user, ticket)) {
+      if (!ticket || !isOwner(user, ticket)) {
         return actionError("Not authorized");
       }
     }
@@ -35,7 +35,7 @@ export async function upsertTicket(data: UpsertTicketValuesType, id?: string) {
     const dbData = {
       ...parsed.data,
       userId: user.id,
-      deadline: format(parsed.data.deadline, "yyy-mm-dd"),
+      deadline: format(parsed.data.deadline, "yyyy-MM-dd"),
     };
 
     await prisma.ticket.upsert({
@@ -47,7 +47,8 @@ export async function upsertTicket(data: UpsertTicketValuesType, id?: string) {
     revalidatePath(Routes.tickets);
 
     return actionSuccess();
-  } catch {
+  } catch (error) {
+    console.error(error);
     return actionError("An unexpected error occurred. Please try again later.");
   }
 }

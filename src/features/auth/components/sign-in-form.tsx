@@ -63,7 +63,11 @@ export default function SignInForm() {
           </div>
         )}
 
-        <SubmitButton label="Sign In" pending={form.formState.isSubmitting} />
+        <SubmitButton
+          label="Sign In"
+          pending={form.formState.isSubmitting}
+          disabled={!form.formState.isDirty}
+        />
       </FieldGroup>
     </form>
   );
