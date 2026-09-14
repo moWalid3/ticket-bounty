@@ -122,6 +122,7 @@ export function RenderField<T extends FieldValues>({
       return (
         <Popover>
           <PopoverTrigger
+            id={id}
             render={
               <Button
                 variant={"outline"}
@@ -133,7 +134,7 @@ export function RenderField<T extends FieldValues>({
                 disabled={disabled}
               >
                 {field.value ? (
-                  format(field.value as Date, "PPP")
+                  format(field.value as Date, "PP")
                 ) : (
                   <span>{placeholder || "Pick a date"}</span>
                 )}
