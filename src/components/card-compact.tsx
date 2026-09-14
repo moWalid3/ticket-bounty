@@ -30,7 +30,9 @@ function CardCompact({
       </CardHeader>
       <CardContent>{content}</CardContent>
       {footer && (
-        <CardFooter className="flex justify-between">{footer}</CardFooter>
+        <CardFooter className="flex justify-between items-center">
+          {footer}
+        </CardFooter>
       )}
     </Card>
   );

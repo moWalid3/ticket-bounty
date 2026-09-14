@@ -1,15 +1,17 @@
 import { LucideSquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 
+import CardCompact from "@/components/card-compact";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Routes } from "@/constants/routes";
 import { TICKET_ICONS } from "@/features/ticket/constants";
 import { cn } from "@/lib/utils";
-import { Ticket } from "@prisma/client";
+import { format } from "date-fns";
+import { TicketWithMetadata } from "../types";
+import { formatCurrency } from "../utils/currency";
 
 type TicketItemProps = {
-  ticket: Ticket;
+  ticket: TicketWithMetadata;
   isDetail?: boolean;
 };
 
@@ -30,14 +32,15 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
         "max-w-xl": isDetail,
       })}
     >
-      <Card className="flex-1">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-x-2">
+      <CardCompact
+        className="flex-1"
+        title={
+          <div className="flex items-center gap-x-2">
             <span>{TICKET_ICONS[ticket.status]}</span>
             <h3 className="truncate font-bold text-xl">{ticket.title}</h3>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </div>
+        }
+        content={
           <span
             className={cn("whitespace-break-spaces", {
               "line-clamp-3": !isDetail,
@@ -45,8 +48,18 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
           >
             {ticket.content}
           </span>
-        </CardContent>
-      </Card>
+        }
+        footer={
+          <>
+            <p className="text-muted-foreground text-[13px]">
+              {format(ticket.createdAt, "yyy-mm-dd")} by {ticket.user.username}
+            </p>
+            <span className="text-accent-foreground text-[13px]">
+              {formatCurrency(ticket.bounty)}
+            </span>
+          </>
+        }
+      />
 
       {!isDetail && (
         <div className="flex flex-col gap-y-0.5">{detailButton}</div>
