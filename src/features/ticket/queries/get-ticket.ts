@@ -1,5 +1,16 @@
+import { getAuth } from "@/features/auth/queries/get-auth";
 import { prisma } from "@/lib/prisma";
+import { isOwner } from "@/utils/is-owner";
 
 export async function getTicket(id: string) {
-  return await prisma.ticket.findUnique({ where: { id } });
+  const { user } = await getAuth();
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { id },
+    include: { user: { select: { username: true } } },
+  });
+
+  if (!ticket) return null;
+
+  return { ...ticket, isOwner: isOwner(user, ticket) };
 }
