@@ -3,13 +3,11 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { cn } from "cn";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-import { AccountDropdown } from "./account-dropdown";
 
 async function AuthNavLinks() {
   const { user } = await getAuth();
 
-  if (user)
-    return <AccountDropdown username={user.username} email={user.email} />;
+  if (user) return null;
 
   return (
     <>
