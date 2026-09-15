@@ -1,16 +1,43 @@
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { prisma } from "@/lib/prisma";
+import { isOwner } from "@/utils/is-owner";
+import { ParsedSearchParams } from "../search-params";
 
-export async function getTickets() {
+export async function getTickets(
+  searchParams: ParsedSearchParams,
+  onlyUserTickets?: boolean,
+) {
   const { user } = await getAuth();
 
-  const tickets = await prisma.ticket.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { user: { select: { username: true } } },
-  });
+  const userId = onlyUserTickets ? user?.id : undefined;
 
-  return tickets.map((ticket) => ({
-    ...ticket,
-    isOwner: ticket.userId === user?.id,
-  }));
+  const where = {
+    userId,
+    title: {
+      contains: searchParams.search,
+      mode: "insensitive" as const,
+    },
+  };
+
+  const skip = searchParams.page * searchParams.size;
+  const take = searchParams.size;
+
+  const [tickets, count] = await prisma.$transaction([
+    prisma.ticket.findMany({
+      where,
+      skip,
+      take,
+      orderBy: { [searchParams.sortKey]: searchParams.sortValue },
+      include: { user: { select: { username: true } } },
+    }),
+    prisma.ticket.count({ where }),
+  ]);
+
+  return {
+    list: tickets.map((ticket) => ({
+      ...ticket,
+      isOwner: isOwner(user, ticket),
+    })),
+    metadata: { count, hasNextPage: count > skip + take },
+  };
 }

@@ -4,9 +4,13 @@ import Heading from "@/components/heading";
 import Spinner from "@/components/spinner";
 import TicketList from "@/features/ticket/components/ticket-list";
 import TicketUpsertForm from "@/features/ticket/components/ticket-upsert-form";
+import { searchParamsCache } from "@/features/ticket/search-params";
+import { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 
-function TicketsPage() {
+type TicketsPageProps = { searchParams: Promise<SearchParams> };
+
+function TicketsPage({ searchParams }: TicketsPageProps) {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
       <Heading description="All your tickets at one place" title="Tickets" />
@@ -20,7 +24,9 @@ function TicketsPage() {
 
       <ErrorBoundary title="Fetching tickets failed!">
         <Suspense fallback={<Spinner />}>
-          <TicketList />
+          {searchParamsCache.parse(searchParams).then((searchPar) => (
+            <TicketList searchParams={searchPar} onlyUserTickets />
+          ))}
         </Suspense>
       </ErrorBoundary>
     </div>

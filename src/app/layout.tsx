@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import Header from "@/components/navigation/header";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
@@ -24,20 +25,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("h-full", "antialiased", inter.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
-          <SidebarProvider defaultOpen={false}>
-            <AppSidebar />
+        <NuqsAdapter>
+          <ThemeProvider>
+            <SidebarProvider defaultOpen={false}>
+              <AppSidebar />
 
-            <div className="flex flex-col flex-1 w-full h-screen">
-              <Header />
-              <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 bg-background/50">
-                {children}
-              </main>
-            </div>
-          </SidebarProvider>
+              <div className="flex flex-col flex-1 w-full h-screen">
+                <Header />
+                <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 bg-background/50">
+                  {children}
+                </main>
+              </div>
+            </SidebarProvider>
 
-          <Toaster />
-        </ThemeProvider>
+            <Toaster />
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
