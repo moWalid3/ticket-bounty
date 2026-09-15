@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { TicketWithMetadata } from "../types";
 import { formatCurrency } from "../utils/currency";
+import TicketMoreMenu from "./ticket-more-menu";
 
 type TicketItemProps = {
   ticket: TicketWithMetadata;
@@ -34,6 +35,10 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
     </Link>
   ) : null;
 
+  const moreMenu = ticket.isOwner && (
+    <TicketMoreMenu ticketId={ticket.id} currentStatus={ticket.status} />
+  );
+
   return (
     <div
       className={cn("w-full flex gap-x-1.25", {
@@ -46,12 +51,14 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
         title={
           <div className="flex items-center gap-x-2">
             <span>{TICKET_ICONS[ticket.status]}</span>
-            <h3 className="truncate font-bold text-xl">{ticket.title}</h3>
+            <h3 className="whitespace-break-spaces line-clamp-1 font-medium">
+              {ticket.title}
+            </h3>
           </div>
         }
         content={
           <span
-            className={cn("whitespace-break-spaces", {
+            className={cn("whitespace-break-spaces text-sm", {
               "line-clamp-3": !isDetail,
             })}
           >
@@ -72,7 +79,10 @@ function TicketItem({ ticket, isDetail }: TicketItemProps) {
 
       <div className="flex flex-col gap-y-0.75">
         {isDetail ? (
-          <>{editButton}</>
+          <>
+            {editButton}
+            {moreMenu}
+          </>
         ) : (
           <>
             {detailButton}
