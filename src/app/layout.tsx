@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
               <div className="flex flex-col flex-1 w-full h-screen">
                 <Header />
-                <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 bg-background/50">
+                <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 pt-8 bg-background/50">
                   {children}
                 </main>
               </div>
