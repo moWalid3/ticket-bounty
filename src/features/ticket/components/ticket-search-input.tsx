@@ -2,8 +2,8 @@
 
 import { Input } from "@/components/ui/input";
 import { useNuqsLoadingToast } from "@/hooks/use-nuqs-loading-toast";
-import { useQueryState } from "nuqs";
-import { searchParser } from "../search-params";
+import { useQueryState, useQueryStates } from "nuqs";
+import { paginationParser, searchParser } from "../search-params";
 
 export default function TicketSearchInput() {
   const { startTransition } = useNuqsLoadingToast("Searching tickets...");
@@ -11,10 +11,16 @@ export default function TicketSearchInput() {
     "search",
     searchParser.withOptions({ startTransition }),
   );
+  const [, setPagination] = useQueryStates(paginationParser);
+
+  function handleSearch(term: string) {
+    setSearch(term);
+    setPagination({ page: 0 });
+  }
 
   return (
     <Input
-      onChange={(e) => setSearch(e.target.value)}
+      onChange={(e) => handleSearch(e.target.value)}
       value={search ?? ""}
       placeholder={"Search tickets ..."}
     />

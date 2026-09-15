@@ -2,6 +2,7 @@ import Placeholder from "@/components/placeholder";
 import TicketItem from "@/features/ticket/components/ticket-item";
 import { getTickets } from "../queries/get-tickets";
 import { ParsedSearchParams } from "../search-params";
+import TicketPagination from "./ticket-pagination";
 import TicketSearchInput from "./ticket-search-input";
 import TicketSortSelect from "./ticket-sort-select";
 
@@ -36,7 +37,9 @@ async function TicketList({ onlyUserTickets, searchParams }: TicketListProps) {
         <Placeholder label="No tickets found" />
       )}
 
-      <div>Pagination</div>
+      <div className="w-full max-w-md">
+        <TicketPagination paginatedMetadata={metadata} />
+      </div>
     </div>
   );
 }
