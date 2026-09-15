@@ -47,8 +47,7 @@ export async function upsertTicket(data: UpsertTicketValuesType, id?: string) {
     revalidatePath(Routes.tickets);
 
     return actionSuccess();
-  } catch (error) {
-    console.error(error);
+  } catch {
     return actionError("An unexpected error occurred. Please try again later.");
   }
 }
