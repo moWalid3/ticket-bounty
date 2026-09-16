@@ -6,8 +6,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Suspense } from "react";
 import SidebarCustomHeader from "./sidebar-custom-header";
-import { SidebarNavMain } from "./sidebar-nav-main";
-import { SidebarNavUser } from "./sidebar-nav-user";
+import { SidebarNavMain } from "./navigation/sidebar-nav-main";
+import { SidebarUser } from "./sidebar-user";
 
 export async function AppSidebar({
   ...props
@@ -24,7 +24,7 @@ export async function AppSidebar({
 
       <SidebarFooter>
         <Suspense>
-          <SidebarNavUser />
+          <SidebarUser />
         </Suspense>
       </SidebarFooter>
     </Sidebar>
