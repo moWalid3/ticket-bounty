@@ -19,7 +19,7 @@ import { getAuth } from "@/features/auth/queries/get-auth";
 import { ChevronsUpDown, Settings2, User } from "lucide-react";
 import Link from "next/link";
 
-export async function SidebarNavUser() {
+export async function SidebarUser() {
   const { user } = await getAuth();
 
   if (!user) return null;
