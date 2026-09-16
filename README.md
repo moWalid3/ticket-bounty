@@ -23,7 +23,7 @@ Users can browse available tickets, create and manage their own tickets, set bou
 - **PostgreSQL / Supabase** — Database
 - **TanStack Query**
 - **React Hook Form + Zod**
-- \*\*shadcn/ui
+- **shadcn/ui**
 - **Tailwind CSS**
 - **Lucide React**
 
