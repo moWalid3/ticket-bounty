@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ReactQueryProvider } from "./_providers/react-query/react-query-provider";
 
 import Header from "@/components/navigation/header";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
@@ -22,23 +23,28 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       suppressHydrationWarning
       lang="en"
-      className={cn("h-full", "antialiased", inter.variable, "font-sans")}
+      className={cn(
+        "h-full overflow-hidden antialiased font-sans",
+        inter.variable,
+      )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex flex-col">
         <NuqsAdapter>
           <ThemeProvider>
-            <SidebarProvider defaultOpen={false}>
-              <AppSidebar />
+            <ReactQueryProvider>
+              <SidebarProvider defaultOpen={false}>
+                <AppSidebar />
 
-              <div className="flex flex-col flex-1 w-full h-screen">
-                <Header />
-                <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 pt-8 bg-background/50">
-                  {children}
-                </main>
-              </div>
-            </SidebarProvider>
+                <div className="grid grid-rows-[auto_1fr] h-screen flex-1 w-full">
+                  <Header />
+                  <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden p-6 pt-8 bg-background/50">
+                    {children}
+                  </main>
+                </div>
+              </SidebarProvider>
 
-            <Toaster />
+              <Toaster />
+            </ReactQueryProvider>
           </ThemeProvider>
         </NuqsAdapter>
       </body>
